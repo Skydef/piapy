@@ -1,13 +1,14 @@
 import random
 import subprocess
 from itertools import cycle
-from time import sleep
 from platform import system
+from time import sleep
 
 # Change the piactl path if executing on Windows
 piapath = "piactl"
-if system()=='Windows':
+if system() == 'Windows':
     piapath = "C:\Program Files\Private Internet Access\piactl.exe"
+
 
 class PiaVpn:
     def __init__(self):
@@ -93,7 +94,7 @@ class PiaVpn:
             raise SystemError(
                 'Args have some problems, check them. "timeout" must be integer and "verbose" must be boolean.'
             )
-        
+
         cmd = [piapath, "connect"]
         process = subprocess.run(cmd, shell=True, capture_output=True)
         if process.returncode != 0:

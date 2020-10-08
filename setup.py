@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="piapy",
-    version="0.1.2",
+    version="0.1.3",
     author="Javier Garcia",
     author_email="javier.garcia.d@gmail.com",
     description="Python wrapper for PIA VPN desktop client command line interface",
