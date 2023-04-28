@@ -4,11 +4,12 @@ from itertools import cycle
 from platform import system
 from time import sleep
 
+SUBPROCESS_TIMEOUT = 40 # seconds
+
 # Change the piactl path if executing on Windows
 piapath = "piactl"
 if system() == 'Windows':
     piapath = "C:\Program Files\Private Internet Access\piactl.exe"
-
 
 class PiaVpn:
     def __init__(self):
@@ -22,7 +23,7 @@ class PiaVpn:
         """
         cmd = [piapath, "get", "regions"]
         process = subprocess.run(
-            cmd, shell=True, capture_output=True
+            cmd, shell=True, capture_output=True, timeout=SUBPROCESS_TIMEOUT
         )
 
         if process.returncode != 0:
@@ -37,7 +38,7 @@ class PiaVpn:
     @staticmethod
     def region():
         cmd = [piapath, "get", "region"]
-        process = subprocess.run(cmd, shell=True, capture_output=True)
+        process = subprocess.run(cmd, shell=True, capture_output=True, timeout=SUBPROCESS_TIMEOUT)
         if process.returncode != 0:
             raise SystemError(process.stderr.decode("utf-8"))
         else:
@@ -54,7 +55,7 @@ class PiaVpn:
             raise ConnectionError("Server must be one of: {}".format(regions))
 
         cmd = [piapath, "set", "region", server]
-        process = subprocess.run(cmd, shell=True, capture_output=True)
+        process = subprocess.run(cmd, shell=True, capture_output=True, timeout=SUBPROCESS_TIMEOUT)
 
         if process.returncode != 0:
             raise SystemError(process.stderr.decode("utf-8"))
@@ -65,7 +66,7 @@ class PiaVpn:
     def status():
         cmd = [piapath, "get", "connectionstate"]
         process = subprocess.run(
-            cmd, shell=True, capture_output=True
+            cmd, shell=True, capture_output=True, timeout=SUBPROCESS_TIMEOUT
         )
 
         if process.returncode != 0:
@@ -76,7 +77,7 @@ class PiaVpn:
     @staticmethod
     def ip():
         cmd = [piapath, "get", "vpnip"]
-        process = subprocess.run(cmd, shell=True, capture_output=True)
+        process = subprocess.run(cmd, shell=True, capture_output=True, timeout=SUBPROCESS_TIMEOUT)
 
         if process.returncode != 0:
             raise SystemError(process.stderr.decode("utf-8"))
@@ -96,7 +97,7 @@ class PiaVpn:
             )
 
         cmd = [piapath, "connect"]
-        process = subprocess.run(cmd, shell=True, capture_output=True)
+        process = subprocess.run(cmd, shell=True, capture_output=True, timeout=SUBPROCESS_TIMEOUT)
         if process.returncode != 0:
             raise SystemError(process.stderr.decode("utf-8"))
         else:
@@ -127,7 +128,7 @@ class PiaVpn:
     @staticmethod
     def disconnect():
         cmd = [piapath, "disconnect"]
-        process = subprocess.run(cmd, shell=True, capture_output=True)
+        process = subprocess.run(cmd, shell=True, capture_output=True, timeout=SUBPROCESS_TIMEOUT)
 
         if process.returncode != 0:
             raise SystemError(process.stderr.decode("utf-8"))
@@ -137,7 +138,7 @@ class PiaVpn:
     @staticmethod
     def reset_settings():
         cmd = [piapath, "resetsettings"]
-        process = subprocess.run(cmd, shell=True, capture_output=True)
+        process = subprocess.run(cmd, shell=True, capture_output=True, timeout=SUBPROCESS_TIMEOUT)
 
         if process.returncode != 0:
             raise SystemError(process.stderr.decode("utf-8"))
@@ -151,7 +152,7 @@ class PiaVpn:
             raise SystemError('Arg "value" must be a boolean.')
 
         cmd = [piapath, "set", "debuglogging", str(value).lower()]
-        process = subprocess.run(cmd, shell=True, capture_output=True)
+        process = subprocess.run(cmd, shell=True, capture_output=True, timeout=SUBPROCESS_TIMEOUT)
 
         if process.returncode != 0:
             raise SystemError(process.stderr.decode("utf-8"))
